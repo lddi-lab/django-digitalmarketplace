@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, reverse
+from django.shortcuts import render, get_object_or_404, reverse, redirect
 from .models import Product
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
@@ -17,5 +17,11 @@ def detail(request, id):
     return render(request, 'myapp/detail.html', {'product': product})
 
 def create_product(request):
+    if request.method == 'POST':
+        product_form = ProductForm(request.POST, request.FILES)
+        if product_form.is_valid():
+            new_product = product_form.save()
+            return redirect('index')
+
     product_form = ProductForm()
     return render(request, 'myapp/create_product.html', {'product_form':product_form})

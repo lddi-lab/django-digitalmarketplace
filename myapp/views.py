@@ -41,3 +41,7 @@ def product_delete(request, id):
         product.delete()
         return redirect('index')
     return render(request, 'myapp/delete.html', {'product':product})
+
+def dashboard(request):
+    products = Product.objects.all()
+    return render(request, 'myapp/dashboard.html', {'products':products })
